@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mon Portfolio</title>
+  <meta name="description" content="Portfolio professionnel — projets, compétences et contact.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Mon Portfolio">
+  <meta property="og:description" content="Portfolio professionnel — projets, compétences et contact.">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+
+  <style>
+    /* Critical CSS: header/nav rendered avant le chargement de css/style.css */
+    :root{--color-bg:#0a0a0a;--color-bg-rgb:10,10,10;--color-bg-alt:#141414;--color-text:#e0e0e0;--color-text-muted:#9a9a9a;--color-primary:#64ffda;--color-primary-rgb:100,255,218;--color-primary-hover:#8effe6;--color-primary-contrast:#0a0a0a;--color-border:#2a2a2a;--font-family-base:'Inter',system-ui,sans-serif;--font-size-base:1.1rem;--line-height-base:1.7;--spacing-sm:0.5rem;--spacing-md:1rem;--spacing-lg:2rem;--spacing-xl:4rem;--header-height:4rem}
+    :root[data-theme="light"]{--color-bg:#ffffff;--color-bg-rgb:255,255,255;--color-bg-alt:#f5f5f5;--color-text:#1a1a1a;--color-text-muted:#5c5c5c;--color-primary:#0d9373;--color-primary-rgb:13,147,115;--color-primary-hover:#0b7a5f;--color-primary-contrast:#1a1a1a;--color-border:#e0e0e0}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit;border:none;background:none;cursor:pointer}
+    body{font-family:var(--font-family-base);font-size:var(--font-size-base);line-height:var(--line-height-base);background-color:var(--color-bg);color:var(--color-text)}
+    .skip-link{position:absolute;top:-100%;left:1rem;z-index:300;padding:.5rem 1rem;background-color:var(--color-primary);color:var(--color-primary-contrast);border-radius:.375rem;font-weight:600}
+    .skip-link:focus{top:1rem}
+    .site-header{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--header-height);border-bottom:1px solid var(--color-border);transition:box-shadow .3s ease}
+    .site-header::before{content:"";position:absolute;inset:0;z-index:-1;background-color:rgba(var(--color-bg-rgb),.4);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+    .nav{height:100%;display:flex;align-items:center;justify-content:space-between;padding:0 var(--spacing-lg)}
+    .nav__logo{font-weight:700;z-index:200}
+    .nav__right{display:flex;align-items:center;gap:var(--spacing-md)}
+    .theme-toggle{font-size:1.25rem;line-height:1;z-index:200}
+  </style>
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Aller au contenu principal</a>
+  <header class="site-header">
+    <nav class="nav" aria-label="Navigation principale">
+      <a href="#hero" class="nav__logo">Mon Portfolio</a>
+      <div class="nav__right">
+        <ul class="nav__links" id="nav-links">
+          <li><a href="#about">À propos</a></li>
+          <li><a href="#projects">Projets</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Activer le mode clair">🌙</button>
+        <button type="button" class="nav__toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+          <span class="nav__toggle-bar" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section id="hero" class="hero reveal">
+      <h1 class="hero__title">Franck Mamalet</h1>
+      <p class="hero__role">Product manager IA</p>
+      <p class="hero__tagline">De product manager à product builder, je construis avec l'IA.</p>
+      <a href="#projects" class="btn btn--primary hero__cta">Voir mes projets</a>
+    </section>
+
+    <section id="about" class="about reveal">
+      <h2 class="section-title">À propos</h2>
+      <div class="about__content">
+        <!-- Remplacer par <img src="..." alt="Franck Mamalet" loading="lazy"> le jour où une vraie photo est disponible -->
+        <div class="about__photo">Photo</div>
+        <p class="about__text">Passionné par la technologie et l'intelligence artificielle, j'apprends à construire des projets concrets en utilisant les outils les plus avancés du marché. Ce portfolio est lui-même construit avec Claude Code.</p>
+      </div>
+    </section>
+
+    <section id="projects" class="projects reveal">
+      <h2 class="section-title">Projets</h2>
+      <div class="projects__grid">
+        <article class="project-card">
+          <div class="project-card__banner"></div>
+          <h3 class="project-card__title">MonPortfolio</h3>
+          <p class="project-card__description">Mon portfolio développeur, construit entièrement avec Claude Code.</p>
+          <ul class="project-card__tags">
+            <li class="project-card__tag">HTML</li>
+            <li class="project-card__tag">CSS</li>
+            <li class="project-card__tag">JavaScript</li>
+            <li class="project-card__tag">Claude Code</li>
+          </ul>
+          <a href="#" class="project-card__link" aria-label="Voir le projet : MonPortfolio">Voir le projet</a>
+        </article>
+
+        <article class="project-card">
+          <div class="project-card__banner"></div>
+          <h3 class="project-card__title">Calculatrice CLI</h3>
+          <p class="project-card__description">Une calculatrice en ligne de commande en Python.</p>
+          <ul class="project-card__tags">
+            <li class="project-card__tag">Python</li>
+            <li class="project-card__tag">CLI</li>
+          </ul>
+          <a href="#" class="project-card__link" aria-label="Voir le projet : Calculatrice CLI">Voir le projet</a>
+        </article>
+
+        <article class="project-card">
+          <div class="project-card__banner"></div>
+          <h3 class="project-card__title">API Notes</h3>
+          <p class="project-card__description">Une API REST pour gérer des notes personnelles.</p>
+          <ul class="project-card__tags">
+            <li class="project-card__tag">Node.js</li>
+            <li class="project-card__tag">Express</li>
+            <li class="project-card__tag">REST API</li>
+          </ul>
+          <a href="#" class="project-card__link" aria-label="Voir le projet : API Notes">Voir le projet</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" class="contact reveal">
+      <h2 class="section-title">Me contacter</h2>
+      <form class="contact-form">
+        <div class="contact-form__field">
+          <label for="contact-name" class="contact-form__label">Nom</label>
+          <input type="text" id="contact-name" name="name" class="contact-form__input">
+        </div>
+
+        <div class="contact-form__field">
+          <label for="contact-email" class="contact-form__label">Email</label>
+          <input type="email" id="contact-email" name="email" class="contact-form__input">
+        </div>
+
+        <div class="contact-form__field">
+          <label for="contact-message" class="contact-form__label">Message</label>
+          <textarea id="contact-message" name="message" class="contact-form__input contact-form__input--textarea" rows="5"></textarea>
+        </div>
+
+        <button type="button" class="btn btn--primary contact-form__submit">Envoyer</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <ul class="site-footer__links">
+      <li><a href="#">GitHub</a></li>
+      <li><a href="#">LinkedIn</a></li>
+    </ul>
+    <p class="site-footer__text">&copy; 2026 Franck Mamalet. Construit avec Claude Code.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
