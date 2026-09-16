@@ -1,0 +1,26 @@
+[
+  {
+    "name": "notes-cli",
+    "description": "",
+    "language": null,
+    "url": "https://github.com/FranckyMa/notes-cli",
+    "stars": 0,
+    "updatedAt": "2026-09-05T08:53:08Z"
+  },
+  {
+    "name": "hello-python",
+    "description": "",
+    "language": "Python",
+    "url": "https://github.com/FranckyMa/hello-python",
+    "stars": 0,
+    "updatedAt": "2026-09-05T08:47:58Z"
+  },
+  {
+    "name": "Portfolio",
+    "description": "My personal portfolio - exercice to Claude Code",
+    "language": "HTML",
+    "url": "https://github.com/FranckyMa/Portfolio",
+    "stars": 0,
+    "updatedAt": "2026-09-05T08:45:04Z"
+  }
+]
