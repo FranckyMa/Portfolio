@@ -1,0 +1,142 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Vérifie que index.html existe
+        run: test -f index.html
+
+      - name: Vérifie la syntaxe des fichiers JS
+        run: |
+          set -e
+          find . -path ./.git -prune -o -name "*.js" -print | while read -r file; do
+            echo "Checking $file"
+            node --check "$file"
+          done
+
+      - name: Vérifie la syntaxe des fichiers CSS (accolades équilibrées)
+        run: |
+          python3 - <<'PYEOF'
+          import glob
+          import sys
+
+          errors = []
+          for path in glob.glob("**/*.css", recursive=True):
+              if ".git" in path:
+                  continue
+              with open(path, encoding="utf-8") as f:
+                  content = f.read()
+              opened, closed = content.count("{"), content.count("}")
+              if opened != closed:
+                  errors.append(f"{path}: {opened} '{{' vs {closed} '}}'")
+
+          if errors:
+              print("Erreurs de syntaxe CSS détectées :")
+              for e in errors:
+                  print(f"  - {e}")
+              sys.exit(1)
+          print("CSS OK")
+          PYEOF
+
+      - name: Valide le HTML (balises non fermées)
+        run: |
+          python3 - <<'PYEOF'
+          import glob
+          import sys
+          from html.parser import HTMLParser
+
+          VOID_ELEMENTS = {
+              "area", "base", "br", "col", "embed", "hr", "img", "input",
+              "link", "meta", "param", "source", "track", "wbr",
+          }
+
+          class TagChecker(HTMLParser):
+              def __init__(self, path):
+                  super().__init__()
+                  self.path = path
+                  self.stack = []
+                  self.errors = []
+
+              def handle_starttag(self, tag, attrs):
+                  if tag not in VOID_ELEMENTS:
+                      self.stack.append((tag, self.getpos()[0]))
+
+              def handle_endtag(self, tag):
+                  if tag in VOID_ELEMENTS:
+                      return
+                  if not self.stack:
+                      self.errors.append(f"{self.path}:{self.getpos()[0]} </{tag}> sans balise ouvrante")
+                      return
+                  if self.stack[-1][0] == tag:
+                      self.stack.pop()
+                      return
+                  if tag in [t for t, _ in self.stack]:
+                      while self.stack and self.stack[-1][0] != tag:
+                          unclosed, line = self.stack.pop()
+                          self.errors.append(f"{self.path}:{line} <{unclosed}> jamais fermée")
+                      if self.stack:
+                          self.stack.pop()
+                  else:
+                      self.errors.append(f"{self.path}:{self.getpos()[0]} </{tag}> inattendue")
+
+          all_errors = []
+          for path in glob.glob("**/*.html", recursive=True):
+              if ".git" in path:
+                  continue
+              with open(path, encoding="utf-8") as f:
+                  content = f.read()
+              checker = TagChecker(path)
+              checker.feed(content)
+              all_errors.extend(checker.errors)
+              for tag, line in checker.stack:
+                  all_errors.append(f"{path}:{line} <{tag}> jamais fermée")
+
+          if all_errors:
+              print("Erreurs HTML détectées :")
+              for e in all_errors:
+                  print(f"  - {e}")
+              sys.exit(1)
+          print("HTML OK")
+          PYEOF
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
