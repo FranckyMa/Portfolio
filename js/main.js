@@ -5,10 +5,11 @@
 
 const navToggle = document.querySelector('.nav__toggle');
 const navLinks = document.querySelector('.nav__links');
+const desktopNavQuery = window.matchMedia('(min-width: 640px)');
 
 function closeMenu() {
   navLinks.classList.remove('nav__links--open');
-  navLinks.inert = true;
+  navLinks.inert = !desktopNavQuery.matches;
   navToggle.classList.remove('nav__toggle--active');
   navToggle.setAttribute('aria-expanded', 'false');
   navToggle.setAttribute('aria-label', 'Ouvrir le menu');
@@ -21,6 +22,11 @@ navToggle.addEventListener('click', () => {
   navToggle.setAttribute('aria-expanded', String(isOpen));
   navToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
 });
+
+// Le bouton hamburger est masqué en CSS dès 640px, donc les liens ne
+// doivent plus jamais être inert à partir de ce breakpoint.
+desktopNavQuery.addEventListener('change', closeMenu);
+closeMenu();
 
 navLinks.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', closeMenu);
