@@ -579,7 +579,7 @@ p {
   padding: var(--spacing-lg);
   text-align: center;
   font-size: 0.875rem;
-  opacity: 0.6;
+  color: var(--color-text-muted);
 }
 
 .site-footer__links {

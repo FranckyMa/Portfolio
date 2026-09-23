@@ -6,10 +6,14 @@
 const navToggle = document.querySelector('.nav__toggle');
 const navLinks = document.querySelector('.nav__links');
 const desktopNavQuery = window.matchMedia('(min-width: 640px)');
+const mainContent = document.querySelector('#main');
+const siteFooter = document.querySelector('.site-footer');
 
 function closeMenu() {
   navLinks.classList.remove('nav__links--open');
   navLinks.inert = !desktopNavQuery.matches;
+  mainContent.inert = false;
+  siteFooter.inert = false;
   navToggle.classList.remove('nav__toggle--active');
   navToggle.setAttribute('aria-expanded', 'false');
   navToggle.setAttribute('aria-label', 'Ouvrir le menu');
@@ -18,9 +22,21 @@ function closeMenu() {
 navToggle.addEventListener('click', () => {
   const isOpen = navLinks.classList.toggle('nav__links--open');
   navLinks.inert = !isOpen;
+  mainContent.inert = isOpen;
+  siteFooter.inert = isOpen;
   navToggle.classList.toggle('nav__toggle--active', isOpen);
   navToggle.setAttribute('aria-expanded', String(isOpen));
   navToggle.setAttribute('aria-label', isOpen ? 'Fermer le menu' : 'Ouvrir le menu');
+  if (isOpen) {
+    navLinks.querySelector('a').focus();
+  }
+});
+
+navLinks.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeMenu();
+    navToggle.focus();
+  }
 });
 
 // Le bouton hamburger est masqué en CSS dès 640px, donc les liens ne
